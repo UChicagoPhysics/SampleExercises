@@ -2,7 +2,8 @@
 # Constants and initial parameters for Martian invasion
 ############################################################
 
-dt       = 1
+MAX_T    = 200
+dt       = 100
 G        = 6.67e-11 # Gravitational constant [N m^2/kg^2]
 
 RADIUS_E = 1.521e11 # Earth to sun           [meters]
@@ -16,3 +17,4 @@ MASS_R   = 4.500e5  # Mass of rocket         [kg]
 
 VEL_E    = 2.98e4   # Velocity of Earth      [m/s]
 VEL_M    = 2.41e4   # Velocity of Mars       [m/s]
+VEL_R    = 1.00e3   # Velocity of rocket     [m/s]
