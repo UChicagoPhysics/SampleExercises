@@ -42,6 +42,9 @@ def calculate_forces(positions, masses):
             if i != j:
                 forces[i] += force_gravity(positions[i], positions[j], 
                                            masses[i], masses[j])
+                
+    # forces[3] += np.array([ -1e13, 1e13 ])
+
     return forces
     
 # Update the positions using velocity Verlet integration
@@ -63,43 +66,42 @@ def update_pos(positions, velocities, masses):
 
     return positions, velocities
 
-# This is the function that gets called when we run the program    
-def main():
+def plot_radii(trajectories):
+    # settings for plotting
+    IMAGE_PATH = "radii.png"
+    TITLE = "Rocket Projectile"
+    YAXIS = "Y"
+    XAXIS = "X"
 
-    print "Starting calculation."
+    # Plot the trajectories
+    print "Plotting radii."
+    plt = pyplot.figure(figsize=(15, 10), dpi=80, facecolor='w')
+    ax = pyplot.axes()
+    ax.set_xlabel(XAXIS) 
+    ax.set_ylabel(YAXIS)
+    ax.set_title(TITLE)
 
-    # positions is an array of vectors in a 2D plane specifying the
-    # positions of [sun, earth, mars, rocket] in m from origin
-    positions = np.array([
-            [0, 0], 
-            [RADIUS_E, 0],
-            [RADIUS_M, 0],
-            [RADIUS_M + RADIUS_R, 0],
-            ])
+    R_M = np.sqrt(trajectories[:,2][:, 0]**2 + trajectories[:,2][:, 1]**2)
+    R_R = np.sqrt(trajectories[:,3][:, 0]**2 + trajectories[:,3][:, 1]**2)
+    R_E = np.sqrt(trajectories[:,1][:, 0]**2 + trajectories[:,1][:, 1]**2)
+    X = range(len(R_M))
 
-    # velocities of each body in m/s
-    velocities = np.array([
-            [0, 0],
-            [0, VEL_E],
-            [0, VEL_M],
-            [0, VEL_M + VEL_R]
-            ])
+    ax.plot(X, R_M, "-", alpha=.7, linewidth=3, label="Mars")
+    ax.plot(X, R_R, "-", alpha=.7, linewidth=3, label="Phobos")
+    # ax.plot(X, 0*R_E, "-", alpha=.7, linewidth=3, label="Earth")
     
-    # masses of each body in kg
-    masses = np.array([MASS_S, MASS_E, MASS_M, MASS_R])
+    # pyplot.ylim(P - 1e3, P + 1e3)
+    # pyplot.xlim(1980, 1985)
 
-    trajectories = []
-    print "Calculating trajectory."
-    for t in range(MAX_T):
-        # we append 'np.array(positions)' to the list so we make a
-        # COPY of the position array if we just appended 'positions'
-        # then we would only append a reference to the array, whose
-        # values would be updated each iteration!
-        trajectories.append(np.array(positions))
-        positions, velocities = update_pos(positions, velocities, masses)
+    ax.legend(bbox_to_anchor=(1., 1.), loc="best", 
+              ncol=1, fancybox=True, shadow=True)
 
-    # turn our python list into a numpy array
-    trajectories = np.array(trajectories)
+    # Save our plot
+    print "Saving plot to %s." % IMAGE_PATH
+    plt.savefig(IMAGE_PATH, bbox_inches='tight')
+    
+
+def plot_orbit(trajectories):
 
     # settings for plotting
     IMAGE_PATH = "trajectories.png"
@@ -133,6 +135,58 @@ def main():
     # Save our plot
     print "Saving plot to %s." % IMAGE_PATH
     plt.savefig(IMAGE_PATH, bbox_inches='tight')
+
+
+# This is the function that gets called when we run the program    
+def main():
+
+    print "Starting calculation."
+
+    # positions is an array of vectors in a 2D plane specifying the
+    # positions of [sun, earth, mars, rocket] in m from origin
+    positions = np.array([
+            [0, 0], 
+            [RADIUS_E, 0],
+            [RADIUS_M, 0],
+            [RADIUS_M - RADIUS_R, 0],
+            ])
+
+    # V_X = -1.5669827005e4
+    V_X = 0
+    
+    # velocities of each body in m/s
+    velocities = np.array([
+            [0, 0],
+            [0, VEL_E],
+            [0, VEL_M],
+            [V_X, VEL_M - VEL_R + V_Y]
+            ])
+    
+    # masses of each body in kg
+    masses = np.array([MASS_S, MASS_E, MASS_M, MASS_R])
+
+    trajectories = []
+    print "Calculating trajectory."
+    for t in range(MAX_STEP):
+        # we append 'np.array(positions)' to the list so we make a
+        # COPY of the position array if we just appended 'positions'
+        # then we would only append a reference to the array, whose
+        # values would be updated each iteration!
+        
+        ROCKET_Y = positions[3,1]
+        trajectories.append(np.array(positions))
+
+        positions, velocities = update_pos(positions, velocities, masses)
+        
+        if (ROCKET_Y > 0 and positions[3,1] < 0):
+            print "Applying secondary Hohmann boost."
+            velocities[3,1] -= V_Y2
+
+    # turn our python list into a numpy array
+    trajectories = np.array(trajectories)
+
+    plot_orbit(trajectories)
+    plot_radii(trajectories)
 
 # This is Python syntax which tells Python to call the function we
 # created, called 'main()', only if this file was run directly, rather
