@@ -132,7 +132,7 @@ def plot_orbit(trajectories):
 
     pyplot.xlim(-3e11, 3e11)
     pyplot.ylim(-3e11, 3e11)
-    pyplot.axis('equal')
+    # pyplot.axis('equal')
 
     ax.legend(bbox_to_anchor=(1., 1.), loc="best", 
               ncol=1, fancybox=True, shadow=True)
@@ -151,7 +151,7 @@ def calculate_trajectory(V_Y, THETA, ADJUSTMENT):
             [0, 0], 
             [RADIUS_E*np.cos(THETA), -RADIUS_E*np.sin(THETA)],
             [RADIUS_M, 0],
-            [RADIUS_M - RADIUS_R, 0],
+            [R1, 0],
             ])
 
     # velocities of each body in m/s
@@ -160,6 +160,7 @@ def calculate_trajectory(V_Y, THETA, ADJUSTMENT):
             [VEL_E*np.sin(THETA), VEL_E*np.cos(THETA)],
             [0, VEL_M],
             [0, VEL_M - VEL_R]
+            # [0, VEL_M]
             ])
 
     print "Applying primary Hohmann boost."
@@ -202,8 +203,8 @@ def main():
 
     print "Starting calculation."
 
-    THETA      = np.pi*.45712
-    ADJUSTMENT = 7.62e2
+    THETA      = np.pi*.45
+    ADJUSTMENT = 8.10493e2
 
     trajectories = calculate_trajectory(V_Y, THETA, ADJUSTMENT)
 

@@ -4,7 +4,8 @@
 
 import numpy as np
 
-MAX_T    = 3.0e7
+MAX_T    = 2.43e7
+# MAX_T    = 3.0e7
 dt       = 3.6e3    # time step of 1 hour
 MAX_STEP = int(MAX_T/dt)
 G        = 6.67e-11 # Gravitational constant [N m^2/kg^2]
@@ -23,12 +24,13 @@ VEL_E    = 2.98e4   # Velocity of Earth      [m/s]
 VEL_M    = 2.41e4   # Velocity of Mars       [m/s]
 VEL_R    = 2.14e3   # Velocity of rocket     [m/s]
 
-# Hohmann boost
-V_Y = np.sqrt(G*MASS_S/RADIUS_M)*(np.sqrt(2*RADIUS_E/(RADIUS_E+RADIUS_M))-1)
+R1 = RADIUS_M-RADIUS_R
 
+# Hohmann boost
+V_Y = np.sqrt(G*MASS_S/R1)*(np.sqrt(2*RADIUS_E/(RADIUS_E+R1))-1)
 
 # correction for numerical error of integration techinique
-V_Y *= .94
+V_Y *= .97
 
 # Secondary Hohmann boost
-V_Y2 = np.sqrt(G*MASS_S/RADIUS_E)*(1-np.sqrt(2*RADIUS_M/(RADIUS_E+RADIUS_M)))
+V_Y2 = np.sqrt(G*MASS_S/RADIUS_E)*(1-np.sqrt(2*R1/(RADIUS_E+R1)))
