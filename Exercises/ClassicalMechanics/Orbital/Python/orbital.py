@@ -40,10 +40,9 @@ def calculate_forces(positions, masses):
         for j in range(n):
             # make sure we are not calculating the gravity to itself
             if i != j:
+                # add the force of gravity to the array of forces
                 forces[i] += force_gravity(positions[i], positions[j], 
                                            masses[i], masses[j])
-                
-    # forces[3] += np.array([ -1e13, 1e13 ])
 
     return forces
     
@@ -67,9 +66,10 @@ def update_pos(positions, velocities, masses):
     return positions, velocities
 
 def plot_radii(trajectories):
+
     # settings for plotting
     IMAGE_PATH = "radii.png"
-    TITLE = "Rocket Projectile"
+    TITLE = "Orbital Radii"
     YAXIS = "Y"
     XAXIS = "X"
 
@@ -103,19 +103,24 @@ def plot_orbit(trajectories):
 
     # settings for plotting
     IMAGE_PATH = "trajectories.png"
-    TITLE = "Rocket Projectile"
+    TITLE = "Orbital Trajectories"
     YAXIS = "Y"
     XAXIS = "X"
 
     # Plot the trajectories
     print "Plotting."
+
+    # create a plot
     plt = pyplot.figure(figsize=(15, 10), dpi=80, facecolor='w')
     ax = pyplot.axes()
+
+    # set the title and axis labels
     ax.set_xlabel(XAXIS) 
     ax.set_ylabel(YAXIS)
     ax.set_title(TITLE)
 
     # Trajectories: trace trajectory of objects
+    # note the numpy array slicing
     ax.plot(trajectories[:,0][:, 0], trajectories[:,0][:, 1], 
             "yo-", alpha=.7, linewidth=3, label="Sun")
     ax.plot(trajectories[:,1][:, 0], trajectories[:,1][:, 1], 
@@ -132,7 +137,6 @@ def plot_orbit(trajectories):
 
     pyplot.xlim(-3e11, 3e11)
     pyplot.ylim(-3e11, 3e11)
-    # pyplot.axis('equal')
 
     ax.legend(bbox_to_anchor=(1., 1.), loc="best", 
               ncol=1, fancybox=True, shadow=True)
@@ -204,11 +208,16 @@ def main():
 
     print "Starting calculation."
 
-    THETA      = np.pi*.45
+    # Parameters for gravity well adjustment
     ADJUSTMENT = 8.10493e2
 
+    # Relative orbital angle between Mars and Earth
+    THETA      = np.pi*.45
+
+    # Calculate the trajectories
     trajectories = calculate_trajectory(V_Y, THETA, ADJUSTMENT)
 
+    # Plotting
     plot_orbit(trajectories)
     plot_radii(trajectories)
 
