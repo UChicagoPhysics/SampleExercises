@@ -150,6 +150,7 @@ def calculate_trajectory(V_Y, THETA, ADJUSTMENT):
     positions = np.array([
             [0, 0], 
             [RADIUS_E*np.cos(THETA), -RADIUS_E*np.sin(THETA)],
+            # [RADIUS_M*2, 0],
             [RADIUS_M, 0],
             [R1, 0],
             ])
@@ -159,8 +160,8 @@ def calculate_trajectory(V_Y, THETA, ADJUSTMENT):
             [0, 0],
             [VEL_E*np.sin(THETA), VEL_E*np.cos(THETA)],
             [0, VEL_M],
-            [0, VEL_M - VEL_R]
             # [0, VEL_M]
+            [0, VEL_M - VEL_R]
             ])
 
     print "Applying primary Hohmann boost."
