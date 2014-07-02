@@ -26,74 +26,93 @@ BOX_Z = 1
 # timestep
 dt = 1e-10
 
+# Creates a matplotlib plot and plots a list of trajectories labeled
+# by a list of masses.
+# called by      : main()
+# arguments      :
+# - trajectories : an array of trajectories
+# - masses       : a list of masses
+# = returns      : None
 def plot_trajectory(trajectories, masses):
 
     # settings for plotting
-    IMAGE_PATH = "trajectory.png"
-    TITLE = "Electron Trajectories"
-    YAXIS = "Y"
-    XAXIS = "X"
-
-    # Plot the trajectories
     print "Plotting."
+    IMAGE_PATH = "trajectory.png"
 
     # create a plot
     plt = pyplot.figure(figsize=(15, 10), dpi=80, facecolor='w')
     ax = pyplot.axes()
 
     # set the title and axis labels
-    ax.set_xlabel(XAXIS) 
-    ax.set_ylabel(YAXIS)
-    ax.set_title(TITLE)
+    ax.set_xlabel("X [meters]") 
+    ax.set_ylabel("Y [meters]")
+    ax.set_title("Electron Trajectories")
 
+    # for each trajectory in our array of trajectories, add a plot
     for i in range(len(trajectories)):
         trajectory = trajectories[i]
         ax.plot(trajectory[:,0], trajectory[:,1], "-", 
                 alpha=.7, linewidth=3, label="M = %.2e kg" % masses[i])
-
-    # ax.legend(bbox_to_anchor=(1., 1.), loc="best", 
-    #           ncol=1, fancybox=True, shadow=True)
         
-    ax.legend(loc="lower right", fancybox=True, shadow=True)
-
+    # Define the plot limits
     pyplot.xlim(0, BOX_X)
     pyplot.ylim(0, BOX_Y)
 
-    # Save our plot
+    # Draw a legend and save our plot
     print "Saving plot to %s." % IMAGE_PATH
+    ax.legend(loc="lower right", fancybox=True, shadow=True)
     plt.savefig(IMAGE_PATH, bbox_inches='tight')
 
+    return None
 
-# Update the positions using euler
+# calculates the magnetic force on the particle and moves it
+# accordingly
+# called by  : calculate_trajectory()
+# arguments  :  
+# - position : 3D numpy array (r_x,r_y,r_z) in meters
+# - velocity : 3D numpy array (v_x,v_y,v_z) in m/s
+# - mass     : scalar float in kg
+# - B        : magnetic field strength, scalar float in Tesla
+# = returns  : the updated position and velocity (3D vectors)
 def update_pos(position, velocity, mass, B):
 
-    # calculate the total force and accelerations on each body
+    # calculate the total force and accelerations on each body using
+    # numpy's vector cross product
     field = [0, 0, B]
     force = q*np.cross(velocity, field)
     accel = force/mass
 
-    # update the positions using the verlet method
+    # update the positions and velocity
     position += velocity*dt + .5*accel*dt**2
-    
-    # use average acceleration to update velocities
     velocity += accel*dt
 
     return position, velocity
 
+# Calculates the trajectory of the particle 
+# called by  : main()
+# arguments  :
+# - position : 3D vector (r_x,r_y,r_z) in meters
+# - velocity : 3D vector (v_x,v_y,v_z) in m/s
+# - mass     : scalar float in kg
+# - B        : magnetic field strength, scalar float in Tesla
+# = returns  : a numpy array of 3D vectors (np.arrays)
 def calculate_trajectory(position, velocity, mass, B):
 
     print "Calculating trajectory."
 
+    # Start a list to append the positions to as we move the particle
     trajectory = [np.array(position)]
 
+    # While the particle is inside the wall, update its position
     while position[1] < BOX_Y:
         position, velocity = update_pos(position, velocity, mass, B)
         trajectory.append(np.array(position))
 
-    return trajectory
+    return np.array(trajectory)
 
-
-# trajectory is the function that gets called when we run the program    
+# main is the function that gets called when we run the program.
+# Loops over multiples of electron mass, calculates trajectories, and
+# plots them.
 def main():
 
     print "Starting calculation."
@@ -101,7 +120,8 @@ def main():
     # Magnetic field strength [Telsa]
     B = -1.0e-3 
 
-    # Calculate the trajectories
+    # Create lists to append a trajectory for each mass, 
+    # and a list for masses
     trajectories = []
     masses = []
 
@@ -111,13 +131,16 @@ def main():
         velocity = np.array([.5*C, 0, 0])
         mass = i*MASS_E
 
+        # calculate the list of positions the particle travels through
         trajectory = calculate_trajectory(position, velocity, mass, B)
+
+        # add the mass and trajectory to our lists
         masses.append(mass)
         trajectories.append(np.array(trajectory))
 
     trajectories = np.array(trajectories)
 
-    # Plotting
+    # Plotting each trajectory
     plot_trajectory(trajectories, masses)
 
 # This is Python syntax which tells Python to call the function we
