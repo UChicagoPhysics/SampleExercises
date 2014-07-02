@@ -19,14 +19,14 @@ MASS_E = 9.10938e-31    # Mass of electron [kg]
 q      = 1.60217657e-19 # Charge of electron [coulombs]
 
 # simulation domain parameters
-BOX_X = 1
+BOX_X = 2
 BOX_Y = 1
 BOX_Z = 1
 
 # timestep
 dt = 1e-10
 
-def plot_trajectory(trajectories, mass):
+def plot_trajectory(trajectories, masses):
 
     # settings for plotting
     IMAGE_PATH = "trajectory.png"
@@ -46,12 +46,15 @@ def plot_trajectory(trajectories, mass):
     ax.set_ylabel(YAXIS)
     ax.set_title(TITLE)
 
-    for trajectory in trajectories:
+    for i in range(len(trajectories)):
+        trajectory = trajectories[i]
         ax.plot(trajectory[:,0], trajectory[:,1], "-", 
-                alpha=.7, linewidth=3, label="M = %.2e" % mass)
+                alpha=.7, linewidth=3, label="M = %.2e kg" % masses[i])
 
-    ax.legend(bbox_to_anchor=(1., 1.), loc="best", 
-              ncol=1, fancybox=True, shadow=True)
+    # ax.legend(bbox_to_anchor=(1., 1.), loc="best", 
+    #           ncol=1, fancybox=True, shadow=True)
+        
+    ax.legend(loc="lower right", fancybox=True, shadow=True)
 
     pyplot.xlim(0, BOX_X)
     pyplot.ylim(0, BOX_Y)
@@ -95,26 +98,27 @@ def main():
 
     print "Starting calculation."
 
-    # Initial velocity for particle
-    velocity = np.array([.5*C, 0, 0])
-    
-    # Initial position for particle
-    position = np.array([0, .5*BOX_Y, 0])
-
     # Magnetic field strength [Telsa]
     B = -1.0e-3 
 
-    # Mass of particle
-    mass = MASS_E
-
     # Calculate the trajectories
     trajectories = []
-    trajectory = calculate_trajectory(position, velocity, mass, B)
-    trajectories.append(trajectory)
+    masses = []
+
+    for i in range(1,7):
+        # Initial velocity and positionfor particle
+        position = np.array([0, .5*BOX_Y, 0])
+        velocity = np.array([.5*C, 0, 0])
+        mass = i*MASS_E
+
+        trajectory = calculate_trajectory(position, velocity, mass, B)
+        masses.append(mass)
+        trajectories.append(np.array(trajectory))
+
     trajectories = np.array(trajectories)
 
     # Plotting
-    plot_trajectory(trajectories, mass)
+    plot_trajectory(trajectories, masses)
 
 # This is Python syntax which tells Python to call the function we
 # created, called 'main()', only if this file was run directly, rather
