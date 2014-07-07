@@ -123,19 +123,17 @@ void calculate_trajectory(double V_Y,
 			  double THETA, 
 			  double ADJUSTMENT)
 {
-    V_Y += ADJUSTMENT;
-
     // positions is an array of vectors in a 2D plane specifying the
     // positions of [sun, earth, mars, rocket] in m from origin
-
     double positions[N_BODY][DIM], velocities[N_BODY][DIM];
+
+    V_Y += ADJUSTMENT;
 
     /* Sun */
     positions[0][0] = 0.0;
     positions[0][1] = 0.0;
     velocities[0][0] = 0.0;
     velocities[0][1] = 0.0;
-
 
     /* Earth */
     positions[1][0] = RADIUS_E*cos(THETA);
