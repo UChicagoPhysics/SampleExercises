@@ -56,7 +56,7 @@ def plot_trajectory(trajectories, masses):
         
     # Define the plot limits
     pyplot.xlim(0, BOX_X)
-    pyplot.ylim(0, BOX_Y)
+    pyplot.ylim(.4*BOX_Y, BOX_Y)
 
     # Draw a legend and save our plot
     print "Saving plot to %s." % IMAGE_PATH
@@ -80,6 +80,7 @@ def update_pos(position, velocity, mass, B):
     # numpy's vector cross product
     field = [0, 0, B]
     force = q*np.cross(velocity, field)
+    
     accel = force/mass
 
     # update the positions and velocity
@@ -98,7 +99,7 @@ def update_pos(position, velocity, mass, B):
 # = returns  : a numpy array of 3D vectors (np.arrays)
 def calculate_trajectory(position, velocity, mass, B):
 
-    print "Calculating trajectory."
+    print "Calculating trajectory: %.2e kg" % mass
 
     # Start a list to append the positions to as we move the particle
     trajectory = [np.array(position)]
@@ -125,6 +126,7 @@ def main():
     trajectories = []
     masses = []
 
+    # Loop over masses from 1 to 6 times electron mass
     for i in range(1,7):
         # Initial velocity and positionfor particle
         position = np.array([0, .5*BOX_Y, 0])
