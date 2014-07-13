@@ -64,6 +64,13 @@ def euler(theta1, theta2, p1, p2):
     
     return theta1, theta2, p1, p2
 
+
+def velocity_verlet(theta1, theta2, p1, p2):
+
+        
+    return theta1, theta2, p1, p2
+
+
 def calculate_paths(method = "euler"):
     
     theta1 = theta1_0
@@ -77,6 +84,7 @@ def calculate_paths(method = "euler"):
             r1 = array([l1*sin(theta1), -l1*cos(theta1)])
             r2 = r1 + array([l2*sin(theta2), -l2*cos(theta2)])
             paths.append([r1, r2])
+
 
     elif method == "scipy":
         yint = [theta1, theta2, p1, p2]
@@ -108,7 +116,7 @@ def main():
     plotting.plot_paths(paths)
 
     # animation
-    # plotting.animate_paths(paths, dt)
+    plotting.animate_paths(paths, dt)
 
 # This is Python syntax which tells Python to call the function we
 # created, called 'main()', only if this file was run directly, rather
