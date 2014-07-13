@@ -1,0 +1,32 @@
+\include{zLaTex-Preamble}
+
+% \title{} 
+% \author{}
+% \date{}
+
+\begin{document}
+\rhead{\fancyplain{}{Charged Particle Trajectory}}
+% \maketitle
+
+\lang{bash}
+
+This problem simulates the trajectory of a charged particle in an
+external magnetic field. It illustrates the effect mass has on the
+trajectory of such a particle.
+
+The direction of the magnetic field is
+perpendicular to the simlated plane. The particle trajectory is
+integrated by updating a velocty with the force and position with the
+force and velocty for each iteration.
+
+In order to run the Python version of the problem:
+
+\begin{lstlisting}
+python trajectory.py
+\end{lstlisting}
+
+It should produce the following output plot:
+\figH {../Python/bremsstrahlung.png}{Charged particle trajectory output plot}{python}{.8} 
+
+
+\end{document}
