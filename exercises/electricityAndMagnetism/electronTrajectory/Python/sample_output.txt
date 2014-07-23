@@ -1,0 +1,9 @@
+Starting calculation.
+Calculating trajectory: 9.11e-31 kg
+Calculating trajectory: 1.82e-30 kg
+Calculating trajectory: 2.73e-30 kg
+Calculating trajectory: 3.64e-30 kg
+Calculating trajectory: 4.55e-30 kg
+Calculating trajectory: 5.47e-30 kg
+Plotting.
+Saving plot to trajectory.png.

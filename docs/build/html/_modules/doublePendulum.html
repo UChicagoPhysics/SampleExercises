@@ -1,0 +1,229 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>doublePendulum &mdash; UChicago Physics Sample Exercises 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="UChicago Physics Sample Exercises 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">UChicago Physics Sample Exercises 0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for doublePendulum</h1><div class="highlight"><pre>
+<span class="c">############################################################</span>
+<span class="c"># Double Pendulum</span>
+<span class="c">############################################################</span>
+
+<span class="c"># Import numpy for numerical calculations, vectors, etc.</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">pi</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">norm</span> <span class="k">as</span> <span class="n">norm</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">ode</span>
+
+<span class="kn">from</span> <span class="nn">params</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">plotting</span>
+
+<div class="viewcode-block" id="dtheta1"><a class="viewcode-back" href="../index.html#doublePendulum.dtheta1">[docs]</a><span class="k">def</span> <span class="nf">dtheta1</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;the time derivative of theta 1</span>
+
+<span class="sd">    :param theta1: float</span>
+<span class="sd">    :param theta2: float</span>
+<span class="sd">    :param p1: float</span>
+<span class="sd">    :param p2: float</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">num</span> <span class="o">=</span> <span class="n">l2</span><span class="o">*</span><span class="n">p1</span> <span class="o">-</span> <span class="n">l1</span><span class="o">*</span><span class="n">p2</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">theta1</span> <span class="o">-</span> <span class="n">theta2</span><span class="p">)</span>
+    <span class="n">den</span> <span class="o">=</span> <span class="n">l1</span><span class="o">*</span><span class="n">l1</span><span class="o">*</span><span class="n">l2</span><span class="o">*</span><span class="p">(</span><span class="n">m1</span> <span class="o">+</span> <span class="n">m2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">theta1</span> <span class="o">-</span> <span class="n">theta2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">num</span><span class="o">/</span><span class="n">den</span>
+</div>
+<div class="viewcode-block" id="dtheta2"><a class="viewcode-back" href="../index.html#doublePendulum.dtheta2">[docs]</a><span class="k">def</span> <span class="nf">dtheta2</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">l1</span><span class="o">*</span><span class="p">(</span><span class="n">m1</span><span class="o">+</span><span class="n">m2</span><span class="p">)</span><span class="o">*</span><span class="n">p2</span> <span class="o">-</span> <span class="n">l2</span><span class="o">*</span><span class="n">m2</span><span class="o">*</span><span class="n">p1</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">theta1</span><span class="o">-</span><span class="n">theta2</span><span class="p">)</span>
+    <span class="n">den</span> <span class="o">=</span> <span class="n">l1</span><span class="o">*</span><span class="n">l2</span><span class="o">*</span><span class="n">l2</span><span class="o">*</span><span class="n">m2</span><span class="o">*</span><span class="p">(</span><span class="n">m1</span><span class="o">+</span> <span class="n">m2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">theta1</span><span class="o">-</span><span class="n">theta2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">num</span><span class="o">/</span><span class="n">den</span>
+</div>
+<div class="viewcode-block" id="dp1"><a class="viewcode-back" href="../index.html#doublePendulum.dp1">[docs]</a><span class="k">def</span> <span class="nf">dp1</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="p">(</span><span class="n">m1</span><span class="o">+</span><span class="n">m2</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">l1</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">theta1</span><span class="p">)</span> <span class="o">-</span> <span class="n">c1</span> <span class="o">+</span> <span class="n">c2</span>
+</div>
+<div class="viewcode-block" id="dp2"><a class="viewcode-back" href="../index.html#doublePendulum.dp2">[docs]</a><span class="k">def</span> <span class="nf">dp2</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">m2</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">l2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">theta2</span><span class="p">)</span> <span class="o">+</span> <span class="n">c1</span> <span class="o">-</span> <span class="n">c2</span>
+</div>
+<div class="viewcode-block" id="C1"><a class="viewcode-back" href="../index.html#doublePendulum.C1">[docs]</a><span class="k">def</span> <span class="nf">C1</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">p1</span><span class="o">*</span><span class="n">p2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">theta1</span> <span class="o">-</span> <span class="n">theta2</span><span class="p">)</span>
+    <span class="n">den</span> <span class="o">=</span> <span class="n">l1</span><span class="o">*</span><span class="n">l2</span><span class="o">*</span><span class="p">(</span><span class="n">m1</span> <span class="o">+</span> <span class="n">m2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">theta1</span> <span class="o">-</span> <span class="n">theta2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">num</span><span class="o">/</span><span class="n">den</span>
+</div>
+<div class="viewcode-block" id="C2"><a class="viewcode-back" href="../index.html#doublePendulum.C2">[docs]</a><span class="k">def</span> <span class="nf">C2</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">l2</span><span class="o">*</span><span class="n">l2</span><span class="o">*</span><span class="n">m2</span><span class="o">*</span><span class="n">p1</span><span class="o">*</span><span class="n">p2</span> <span class="o">+</span> <span class="n">l1</span><span class="o">*</span><span class="p">(</span><span class="n">m1</span> <span class="o">+</span> <span class="n">m2</span><span class="p">)</span><span class="o">*</span><span class="n">p2</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">l1</span><span class="o">*</span><span class="n">l2</span><span class="o">*</span><span class="n">m2</span><span class="o">*</span><span class="n">p1</span><span class="o">*</span><span class="n">p2</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">theta1</span><span class="o">-</span><span class="n">theta2</span><span class="p">)</span>
+    <span class="n">den</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">l1</span><span class="o">*</span><span class="n">l1</span><span class="o">*</span><span class="n">l2</span><span class="o">*</span><span class="n">l2</span><span class="o">*</span><span class="p">(</span><span class="n">m1</span> <span class="o">+</span> <span class="n">m2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">theta1</span><span class="o">-</span><span class="n">theta2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">theta1</span><span class="o">-</span><span class="n">theta2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">num</span><span class="o">/</span><span class="n">den</span>
+</div>
+<div class="viewcode-block" id="deriv"><a class="viewcode-back" href="../index.html#doublePendulum.deriv">[docs]</a><span class="k">def</span> <span class="nf">deriv</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+
+    <span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="n">_c1</span> <span class="o">=</span> <span class="n">C1</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+    <span class="n">_c2</span> <span class="o">=</span> <span class="n">C2</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+
+    <span class="n">_dtheta1</span> <span class="o">=</span> <span class="n">dtheta1</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+    <span class="n">_dtheta2</span> <span class="o">=</span> <span class="n">dtheta2</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+    
+    <span class="n">_dp1</span> <span class="o">=</span> <span class="n">dp1</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">_c1</span><span class="p">,</span> <span class="n">_c2</span><span class="p">)</span>
+    <span class="n">_dp2</span> <span class="o">=</span> <span class="n">dp2</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">_c1</span><span class="p">,</span> <span class="n">_c2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">array</span><span class="p">([</span><span class="n">_dtheta1</span><span class="p">,</span> <span class="n">_dtheta2</span><span class="p">,</span> <span class="n">_dp1</span><span class="p">,</span> <span class="n">_dp2</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="euler"><a class="viewcode-back" href="../index.html#doublePendulum.euler">[docs]</a><span class="k">def</span> <span class="nf">euler</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+
+    <span class="n">_y</span> <span class="o">=</span> <span class="n">deriv</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">])</span>
+    <span class="n">_dtheta1</span><span class="p">,</span> <span class="n">_dtheta2</span><span class="p">,</span> <span class="n">_dp1</span><span class="p">,</span> <span class="n">_dp2</span> <span class="o">=</span> <span class="n">_y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">_y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">_y</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">_y</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="n">theta1</span> <span class="o">+=</span> <span class="n">_dtheta1</span><span class="o">*</span><span class="n">dt</span>
+    <span class="n">theta2</span> <span class="o">+=</span> <span class="n">_dtheta2</span><span class="o">*</span><span class="n">dt</span>
+
+    <span class="n">p1</span> <span class="o">+=</span> <span class="n">_dp1</span><span class="o">*</span><span class="n">dt</span>
+    <span class="n">p2</span> <span class="o">+=</span> <span class="n">_dp2</span><span class="o">*</span><span class="n">dt</span>
+    
+    <span class="k">return</span> <span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span>
+
+</div>
+<div class="viewcode-block" id="velocity_verlet"><a class="viewcode-back" href="../index.html#doublePendulum.velocity_verlet">[docs]</a><span class="k">def</span> <span class="nf">velocity_verlet</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+
+        
+    <span class="k">return</span> <span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span>
+
+</div>
+<div class="viewcode-block" id="calculate_paths"><a class="viewcode-back" href="../index.html#doublePendulum.calculate_paths">[docs]</a><span class="k">def</span> <span class="nf">calculate_paths</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s">&quot;euler&quot;</span><span class="p">):</span>
+    
+    <span class="n">theta1</span> <span class="o">=</span> <span class="n">theta1_0</span>
+    <span class="n">theta2</span> <span class="o">=</span> <span class="n">theta2_0</span>
+    <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">0</span>
+
+    <span class="n">paths</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s">&quot;euler&quot;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsteps</span><span class="p">):</span>
+            <span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">euler</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+            <span class="n">r1</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">l1</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">theta1</span><span class="p">),</span> <span class="o">-</span><span class="n">l1</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">theta1</span><span class="p">)])</span>
+            <span class="n">r2</span> <span class="o">=</span> <span class="n">r1</span> <span class="o">+</span> <span class="n">array</span><span class="p">([</span><span class="n">l2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">theta2</span><span class="p">),</span> <span class="o">-</span><span class="n">l2</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">theta2</span><span class="p">)])</span>
+            <span class="n">paths</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">])</span>
+
+
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s">&quot;scipy&quot;</span><span class="p">:</span>
+        <span class="n">yint</span> <span class="o">=</span> <span class="p">[</span><span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">]</span>
+        <span class="c"># r = ode(deriv).set_integrator(&#39;zvode&#39;, method=&#39;bdf&#39;)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">ode</span><span class="p">(</span><span class="n">deriv</span><span class="p">)</span><span class="o">.</span><span class="n">set_integrator</span><span class="p">(</span><span class="s">&#39;vode&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&#39;bdf&#39;</span><span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">set_initial_value</span><span class="p">(</span><span class="n">yint</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        
+        <span class="n">paths</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="n">r</span><span class="o">.</span><span class="n">successful</span><span class="p">()</span> <span class="ow">and</span> <span class="n">r</span><span class="o">.</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">max_t</span><span class="p">:</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">t</span><span class="o">+</span><span class="n">dt</span><span class="p">)</span>
+            <span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">r1</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">l1</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">theta1</span><span class="p">),</span> <span class="o">-</span><span class="n">l1</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">theta1</span><span class="p">)])</span>
+            <span class="n">r2</span> <span class="o">=</span> <span class="n">r1</span> <span class="o">+</span> <span class="n">array</span><span class="p">([</span><span class="n">l2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">theta2</span><span class="p">),</span> <span class="o">-</span><span class="n">l2</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">theta2</span><span class="p">)])</span>
+            <span class="n">paths</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">array</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+
+<span class="c"># This is the function that gets called when we run the program    </span></div>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+
+    <span class="k">print</span> <span class="s">&quot;Starting calculation.&quot;</span>
+
+    <span class="c"># Calculate the trajectories</span>
+    <span class="c"># paths = calculate_paths(&quot;scipy&quot;)</span>
+    <span class="n">paths</span> <span class="o">=</span> <span class="n">calculate_paths</span><span class="p">()</span>
+    <span class="c"># print paths</span>
+
+    <span class="c"># Plotting</span>
+    <span class="n">plotting</span><span class="o">.</span><span class="n">plot_paths</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+
+    <span class="c"># animation</span>
+    <span class="n">plotting</span><span class="o">.</span><span class="n">animate_paths</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+<span class="c"># This is Python syntax which tells Python to call the function we</span>
+<span class="c"># created, called &#39;main()&#39;, only if this file was run directly, rather</span>
+<span class="c"># than with &#39;import orbital&#39;</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">UChicago Physics Sample Exercises 0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, The University of Chicago.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

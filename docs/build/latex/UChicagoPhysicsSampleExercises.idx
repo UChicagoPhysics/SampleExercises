@@ -1,0 +1,27 @@
+\indexentry{orbital (module)|hyperpage}{3}
+\indexentry{calculate\_forces() (in module orbital)|hyperpage}{3}
+\indexentry{calculate\_trajectory() (in module orbital)|hyperpage}{3}
+\indexentry{force\_gravity() (in module orbital)|hyperpage}{3}
+\indexentry{plot\_orbit() (in module orbital)|hyperpage}{4}
+\indexentry{plot\_radii() (in module orbital)|hyperpage}{4}
+\indexentry{update\_pos() (in module orbital)|hyperpage}{4}
+\indexentry{doublePendulum (module)|hyperpage}{6}
+\indexentry{C1() (in module doublePendulum)|hyperpage}{6}
+\indexentry{C2() (in module doublePendulum)|hyperpage}{7}
+\indexentry{calculate\_paths() (in module doublePendulum)|hyperpage}{7}
+\indexentry{deriv() (in module doublePendulum)|hyperpage}{7}
+\indexentry{dp1() (in module doublePendulum)|hyperpage}{7}
+\indexentry{dp2() (in module doublePendulum)|hyperpage}{7}
+\indexentry{dtheta1() (in module doublePendulum)|hyperpage}{7}
+\indexentry{dtheta2() (in module doublePendulum)|hyperpage}{8}
+\indexentry{euler() (in module doublePendulum)|hyperpage}{8}
+\indexentry{velocity\_verlet() (in module doublePendulum)|hyperpage}{8}
+\indexentry{plotting (module)|hyperpage}{8}
+\indexentry{animate() (in module plotting)|hyperpage}{8}
+\indexentry{animate\_paths() (in module plotting)|hyperpage}{8}
+\indexentry{plot\_paths() (in module plotting)|hyperpage}{9}
+\indexentry{electronTrajectory (module)|hyperpage}{12}
+\indexentry{calculate\_trajectory() (in module electronTrajectory)|hyperpage}{12}
+\indexentry{main() (in module electronTrajectory)|hyperpage}{12}
+\indexentry{plot\_trajectory() (in module electronTrajectory)|hyperpage}{12}
+\indexentry{update\_pos() (in module electronTrajectory)|hyperpage}{13}

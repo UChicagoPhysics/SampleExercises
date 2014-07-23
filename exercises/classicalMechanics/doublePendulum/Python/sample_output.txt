@@ -1,0 +1,8 @@
+nsteps: 5000
+Starting calculation.
+Plotting.
+Saving plot to pendulum.png.
+nsteps: 5000
+Starting calculation.
+Plotting.
+Saving plot to pendulum.png.

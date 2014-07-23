@@ -1,0 +1,8 @@
+Starting calculation.
+Applying primary Hohmann boost.
+Calculating trajectory.
+LANDED
+Plotting.
+Saving plot to trajectories.png.
+Plotting radii.
+Saving plot to radii.png.

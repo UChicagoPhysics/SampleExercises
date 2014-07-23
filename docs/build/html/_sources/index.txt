@@ -3,14 +3,60 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to UChicago Physics Sample Exercises's documentation!
+UChicago Physics Sample Exercises's documentation
 =============================================================
 
-Contents:
+:mod:`Orbital` -- Launching a rocket from Mars to Earth
+-------------------------------------------------------
+
+This problem asks the student to launch a rocket from the orbit of
+Mars on a course for intercept with Earth.  
+
+Build/Run
++++++++++
+.. code-block:: bash
+
+    $ python orbital.py
+
+Output
+++++++
+
+.. include:: exercises/classicalMechanics/Orbital/Python/sample_output.txt
+
+.. image:: exercises/classicalMechanics/Orbital/Python/radii.png
+
+.. image:: exercises/classicalMechanics/Orbital/Python/trajectories.png
+
+
+Methods
++++++++
+
+.. automodule:: orbital
+   :members:
+
+
+:mod:`doublePendulum` -- Solving the Classical Double Pendulum
+--------------------------------------------------------------
+
+Solve the classical double pendulum problem.  This problem is
+appropriate for an intermediate mechanics course teach Lagrangian and
+Hamiltonian Dynamics.  
+
+Build/Run
++++++++++
+.. code-block:: bash
+
+    $ python doublePendulum.py
+
+Methods
++++++++
+
+.. automodule:: doublePendulum
+   :members:
+
 
 .. toctree::
    :maxdepth: 2
-
 
 
 Indices and tables

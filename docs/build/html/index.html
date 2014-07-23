@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to UChicago Physics Sample Exercises’s documentation! &mdash; UChicago Physics Sample Exercises 0.1 documentation</title>
+    <title>UChicago Physics Sample Exercises’s documentation &mdash; UChicago Physics Sample Exercises 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -35,6 +35,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="#">UChicago Physics Sample Exercises 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -44,12 +47,360 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="welcome-to-uchicago-physics-sample-exercises-s-documentation">
-<h1>Welcome to UChicago Physics Sample Exercises&#8217;s documentation!<a class="headerlink" href="#welcome-to-uchicago-physics-sample-exercises-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
+  <div class="section" id="uchicago-physics-sample-exercises-s-documentation">
+<h1>UChicago Physics Sample Exercises&#8217;s documentation<a class="headerlink" href="#uchicago-physics-sample-exercises-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="orbital-launching-a-rocket-from-mars-to-earth">
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">Orbital</span></tt> &#8211; Launching a rocket from Mars to Earth<a class="headerlink" href="#orbital-launching-a-rocket-from-mars-to-earth" title="Permalink to this headline">¶</a></h2>
+<p>This problem asks the student to launch a rocket from the orbit of
+Mars on a course for intercept with Earth.</p>
+<div class="section" id="build-run">
+<h3>Build/Run<a class="headerlink" href="#build-run" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>python orbital.py
+</pre></div>
+</div>
+</div>
+<div class="section" id="output">
+<h3>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h3>
+<p>Starting calculation.
+Applying primary Hohmann boost.
+Calculating trajectory.
+LANDED
+Plotting.
+Saving plot to trajectories.png.
+Plotting radii.
+Saving plot to radii.png.</p>
+<img alt="_images/radii.png" src="_images/radii.png" />
+<img alt="_images/trajectories.png" src="_images/trajectories.png" />
+</div>
+<div class="section" id="module-orbital">
+<span id="methods"></span><h3>Methods<a class="headerlink" href="#module-orbital" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="orbital.calculate_forces">
+<tt class="descclassname">orbital.</tt><tt class="descname">calculate_forces</tt><big>(</big><em>positions</em>, <em>masses</em><big>)</big><a class="reference internal" href="_modules/orbital.html#calculate_forces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orbital.calculate_forces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sum the forces on each body in the current system</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>positions</strong> &#8211; a two dimensional numpy array of floats: each row is a displacement vector belonging to a planetary body</li>
+<li><strong>masses</strong> &#8211; a numpy array of floats: the masses of each body in kg</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">two dimensional numpy array of floats: an array of 2D force vectors specifying the net force on each body</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="orbital.force_gravity">
+<tt class="descclassname">orbital.</tt><tt class="descname">force_gravity</tt><big>(</big><em>r1</em>, <em>r2</em>, <em>m1</em>, <em>m2</em><big>)</big><a class="reference internal" href="_modules/orbital.html#force_gravity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orbital.force_gravity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the force of gravity given displacement vectors r1 &amp; r1
+and scalar masses m1, m2</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>r1</strong> &#8211; numpy array of floats: the 2D cartesian location of the first body in meters</li>
+<li><strong>r2</strong> &#8211; numpy array of floats: the 2D cartesian location of the second body in meters</li>
+<li><strong>m1</strong> &#8211; float:  the mass of the first body in kg</li>
+<li><strong>m2</strong> &#8211; float:  the mass of the first body in kg</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">float: the gravitational force between the two bodies in Newtons</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="orbital.plot_radii">
+<tt class="descclassname">orbital.</tt><tt class="descname">plot_radii</tt><big>(</big><em>trajectories</em><big>)</big><a class="reference internal" href="_modules/orbital.html#plot_radii"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orbital.plot_radii" title="Permalink to this definition">¶</a></dt>
+<dd><p>plots the distance of each body from the Sun over time</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>trajectories</strong> &#8211; a three dimensional numpy array: first index is time, second index is body (Sun, Earth, etc.), third index is coordinate</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><tt class="docutils literal"><span class="pre">None</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="orbital.update_pos">
+<tt class="descclassname">orbital.</tt><tt class="descname">update_pos</tt><big>(</big><em>positions</em>, <em>velocities</em>, <em>masses</em><big>)</big><a class="reference internal" href="_modules/orbital.html#update_pos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#orbital.update_pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the positions using velocity Verlet integration</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>positions</strong> &#8211; a two dimensional numpy array of floats: each row is a displacement vector belonging to a planetary body</li>
+<li><strong>positions</strong> &#8211; a two dimensional numpy array of floats: each row is a velocity vector belonging to a planetary body</li>
+<li><strong>masses</strong> &#8211; a numpy array of floats: the masses of each body in kg</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple length 2 of two dimensional numpy array of floats: the positions and velocities</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="doublependulum-solving-the-classical-double-pendulum">
+<h2><a class="reference internal" href="#module-doublePendulum" title="doublePendulum"><tt class="xref py py-mod docutils literal"><span class="pre">doublePendulum</span></tt></a> &#8211; Solving the Classical Double Pendulum<a class="headerlink" href="#doublependulum-solving-the-classical-double-pendulum" title="Permalink to this headline">¶</a></h2>
+<p>Solve the classical double pendulum problem.  This problem is
+appropriate for an intermediate mechanics course teach Lagrangian and
+Hamiltonian Dynamics.</p>
+<div class="section" id="id1">
+<h3>Build/Run<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>python doublePendulum.py
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Methods<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-doublePendulum"></span><dl class="function">
+<dt id="doublePendulum.C1">
+<tt class="descclassname">doublePendulum.</tt><tt class="descname">C1</tt><big>(</big><em>theta1</em>, <em>theta2</em>, <em>p1</em>, <em>p2</em><big>)</big><a class="reference internal" href="_modules/doublePendulum.html#C1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doublePendulum.C1" title="Permalink to this definition">¶</a></dt>
+<dd><p>helper function to calculate a constant <tt class="docutils literal"><span class="pre">C_1</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta1</strong> &#8211; float</li>
+<li><strong>theta2</strong> &#8211; float</li>
+<li><strong>p1</strong> &#8211; float</li>
+<li><strong>p2</strong> &#8211; float</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">float, constant used in calculating Hamilton&#8217;s equation</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="doublePendulum.C2">
+<tt class="descclassname">doublePendulum.</tt><tt class="descname">C2</tt><big>(</big><em>theta1</em>, <em>theta2</em>, <em>p1</em>, <em>p2</em><big>)</big><a class="reference internal" href="_modules/doublePendulum.html#C2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doublePendulum.C2" title="Permalink to this definition">¶</a></dt>
+<dd><p>helper function to calculate a constant <tt class="docutils literal"><span class="pre">C_2</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta1</strong> &#8211; float</li>
+<li><strong>theta2</strong> &#8211; float</li>
+<li><strong>p1</strong> &#8211; float</li>
+<li><strong>p2</strong> &#8211; float</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">float, constant used in calculating Hamilton&#8217;s equation</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="doublePendulum.calculate_paths">
+<tt class="descclassname">doublePendulum.</tt><tt class="descname">calculate_paths</tt><big>(</big><em>method='euler'</em><big>)</big><a class="reference internal" href="_modules/doublePendulum.html#calculate_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doublePendulum.calculate_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>use a default or specified method of integration to solve the
+pendulum&#8217;s motion</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>method</strong> &#8211; optional, string.  specify the integration method to use</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="doublePendulum.deriv">
+<tt class="descclassname">doublePendulum.</tt><tt class="descname">deriv</tt><big>(</big><em>t</em>, <em>y</em><big>)</big><a class="reference internal" href="_modules/doublePendulum.html#deriv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doublePendulum.deriv" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculated the derivative of <tt class="docutils literal"><span class="pre">theta1,</span> <span class="pre">theta2,</span> <span class="pre">p1,</span> <span class="pre">p2</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta1</strong> &#8211; float</li>
+<li><strong>theta2</strong> &#8211; float</li>
+<li><strong>p1</strong> &#8211; float</li>
+<li><strong>p2</strong> &#8211; float</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">numpy array, time derivative of parameters</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="doublePendulum.dp1">
+<tt class="descclassname">doublePendulum.</tt><tt class="descname">dp1</tt><big>(</big><em>theta1</em>, <em>theta2</em>, <em>p1</em>, <em>p2</em>, <em>c1</em>, <em>c2</em><big>)</big><a class="reference internal" href="_modules/doublePendulum.html#dp1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doublePendulum.dp1" title="Permalink to this definition">¶</a></dt>
+<dd><p>the time derivative of <tt class="docutils literal"><span class="pre">p1</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta1</strong> &#8211; float</li>
+<li><strong>theta2</strong> &#8211; float</li>
+<li><strong>p1</strong> &#8211; float</li>
+<li><strong>p2</strong> &#8211; float</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">float, the time derivative of p1</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="doublePendulum.dp2">
+<tt class="descclassname">doublePendulum.</tt><tt class="descname">dp2</tt><big>(</big><em>theta1</em>, <em>theta2</em>, <em>p1</em>, <em>p2</em>, <em>c1</em>, <em>c2</em><big>)</big><a class="reference internal" href="_modules/doublePendulum.html#dp2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doublePendulum.dp2" title="Permalink to this definition">¶</a></dt>
+<dd><p>the time derivative of <tt class="docutils literal"><span class="pre">p2</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta1</strong> &#8211; float</li>
+<li><strong>theta2</strong> &#8211; float</li>
+<li><strong>p1</strong> &#8211; float</li>
+<li><strong>p2</strong> &#8211; float</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">float, the time derivative of p2</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="doublePendulum.dtheta1">
+<tt class="descclassname">doublePendulum.</tt><tt class="descname">dtheta1</tt><big>(</big><em>theta1</em>, <em>theta2</em>, <em>p1</em>, <em>p2</em><big>)</big><a class="reference internal" href="_modules/doublePendulum.html#dtheta1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doublePendulum.dtheta1" title="Permalink to this definition">¶</a></dt>
+<dd><p>the time derivative of <tt class="docutils literal"><span class="pre">theta1</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta1</strong> &#8211; float</li>
+<li><strong>theta2</strong> &#8211; float</li>
+<li><strong>p1</strong> &#8211; float</li>
+<li><strong>p2</strong> &#8211; float</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">float, the time derivative of theta1</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="doublePendulum.dtheta2">
+<tt class="descclassname">doublePendulum.</tt><tt class="descname">dtheta2</tt><big>(</big><em>theta1</em>, <em>theta2</em>, <em>p1</em>, <em>p2</em><big>)</big><a class="reference internal" href="_modules/doublePendulum.html#dtheta2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doublePendulum.dtheta2" title="Permalink to this definition">¶</a></dt>
+<dd><p>the time derivative of <tt class="docutils literal"><span class="pre">theta2</span></tt></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta1</strong> &#8211; float</li>
+<li><strong>theta2</strong> &#8211; float</li>
+<li><strong>p1</strong> &#8211; float</li>
+<li><strong>p2</strong> &#8211; float</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">float, the time derivative of theta2</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="doublePendulum.euler">
+<tt class="descclassname">doublePendulum.</tt><tt class="descname">euler</tt><big>(</big><em>theta1</em>, <em>theta2</em>, <em>p1</em>, <em>p2</em><big>)</big><a class="reference internal" href="_modules/doublePendulum.html#euler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doublePendulum.euler" title="Permalink to this definition">¶</a></dt>
+<dd><p>use a naive euler integration schemed to make a single step in
+the pendulum&#8217;s motion</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta1</strong> &#8211; float</li>
+<li><strong>theta2</strong> &#8211; float</li>
+<li><strong>p1</strong> &#8211; float</li>
+<li><strong>p2</strong> &#8211; float</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple of updated parameters</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="doublePendulum.velocity_verlet">
+<tt class="descclassname">doublePendulum.</tt><tt class="descname">velocity_verlet</tt><big>(</big><em>theta1</em>, <em>theta2</em>, <em>p1</em>, <em>p2</em><big>)</big><a class="reference internal" href="_modules/doublePendulum.html#velocity_verlet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#doublePendulum.velocity_verlet" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>TODO</strong> use a velocity verlet integration schemed to make a single step in
+the pendulum&#8217;s motion</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta1</strong> &#8211; float</li>
+<li><strong>theta2</strong> &#8211; float</li>
+<li><strong>p1</strong> &#8211; float</li>
+<li><strong>p2</strong> &#8211; float</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple of parameters</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <div class="toctree-wrapper compound">
 <ul class="simple">
 </ul>
+</div>
+</div>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
@@ -69,7 +420,20 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Welcome to UChicago Physics Sample Exercises&#8217;s documentation!</a><ul>
+<li><a class="reference internal" href="#">UChicago Physics Sample Exercises&#8217;s documentation</a><ul>
+<li><a class="reference internal" href="#orbital-launching-a-rocket-from-mars-to-earth"><tt class="docutils literal"><span class="pre">Orbital</span></tt> &#8211; Launching a rocket from Mars to Earth</a><ul>
+<li><a class="reference internal" href="#build-run">Build/Run</a></li>
+<li><a class="reference internal" href="#output">Output</a></li>
+<li><a class="reference internal" href="#module-orbital">Methods</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#doublependulum-solving-the-classical-double-pendulum"><tt class="docutils literal"><span class="pre">doublePendulum</span></tt> &#8211; Solving the Classical Double Pendulum</a><ul>
+<li><a class="reference internal" href="#id1">Build/Run</a></li>
+<li><a class="reference internal" href="#id2">Methods</a><ul>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
@@ -103,6 +467,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="#">UChicago Physics Sample Exercises 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
