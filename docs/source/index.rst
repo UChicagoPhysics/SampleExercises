@@ -112,7 +112,7 @@ Plots
 Methods
 +++++++
 
-.. automodule:: electronTrajectory
+cd.. automodule:: electronTrajectory
    :members:
 
 

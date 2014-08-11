@@ -17,18 +17,33 @@ from numpy.linalg import norm as norm
 # file, and make it available for use in this file
 from params import *
 
-# Calculates the force of gravity given displacement vectors r1 & r1
-# and scalar masses m1, m2
 def force_gravity(r1, r2, m1, m2):
+    """Calculates the force of gravity given displacement vectors r1 & r1
+    and scalar masses m1, m2
+
+    :param r1: numpy array of floats: the 2D cartesian location of the first body in meters
+    :param r2: numpy array of floats: the 2D cartesian location of the second body in meters
+    :param m1: float:  the mass of the first body in kg
+    :param m2: float:  the mass of the first body in kg
+    :returns: float: the gravitational force between the two bodies in Newtons
+
+    """
     
     # numpy can subtract arrays like vectors
     r = r1 - r2
     F = - G*m1*m2*norm(r)**(-3.)*r
     return F
 
-# Sum the forces on each body in the current system
+
 def calculate_forces(positions, masses):
-    
+    """Sum the forces on each body in the current system    
+
+    :param positions: a two dimensional numpy array of floats: each row is a displacement vector belonging to a planetary body
+    :param masses: a numpy array of floats: the masses of each body in kg
+    :returns: two dimensional numpy array of floats: an array of 2D force vectors specifying the net force on each body 
+
+    """
+
     # set n to be the number of bodies to consider
     n = len(positions)
     
@@ -46,8 +61,15 @@ def calculate_forces(positions, masses):
 
     return forces
     
-# Update the positions using velocity Verlet integration
 def update_pos(positions, velocities, masses):
+    """Update the positions using velocity Verlet integration
+
+    :param positions: a two dimensional numpy array of floats: each row is a displacement vector belonging to a planetary body
+    :param positions: a two dimensional numpy array of floats: each row is a velocity vector belonging to a planetary body
+    :param masses: a numpy array of floats: the masses of each body in kg
+    :returns: tuple length 2 of two dimensional numpy array of floats: the positions and velocities
+
+    """
 
     # calculate the total force and accelerations on each body
     forces = calculate_forces(positions, masses)
@@ -66,6 +88,12 @@ def update_pos(positions, velocities, masses):
     return positions, velocities
 
 def plot_radii(trajectories):
+    """plots the distance of each body from the Sun over time
+
+    :param trajectories: a three dimensional numpy array: first index is time, second index is body (Sun, Earth, etc.), third index is coordinate
+    :returns: ``None``
+
+    """    
 
     # settings for plotting
     IMAGE_PATH = "radii.png"
@@ -100,6 +128,12 @@ def plot_radii(trajectories):
     
 
 def plot_orbit(trajectories):
+    """plots the trajectory of each of the bodies from a birds-eye view of the Solar System. Saves output to ./trajectories.png
+
+    :param trajectories: a three dimensional numpy array: first index is time, second index is body (Sun, Earth, etc.), third index is coordinate
+    :returns: ``None``
+
+    """    
 
     # settings for plotting
     IMAGE_PATH = "trajectories.png"
@@ -146,6 +180,14 @@ def plot_orbit(trajectories):
     plt.savefig(IMAGE_PATH, bbox_inches='tight')
 
 def calculate_trajectory(V_Y, THETA, ADJUSTMENT):
+    """Calculates the trajectory of the rocket given the initial
+    Hohmann velocity boost plus gravity well adjustment
+
+    :param V_Y: float: the initial Hohmann velocty boost in m/s
+    :param THETA: the initial angular separation of Earth and Mars in radians
+    :param ADJUSTMENT: the velocity boost adjustment needed to escape the gravity well
+
+    """
     
     V_Y += ADJUSTMENT
 

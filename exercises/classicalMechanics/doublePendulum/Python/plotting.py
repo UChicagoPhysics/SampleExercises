@@ -12,6 +12,13 @@ from matplotlib import animation
 import numpy as np
 
 def plot_paths(paths):
+    """ Plot the paths to a png image ``./pendulum.png``.
+
+    :param paths:  a three dimensional numpy array: The first index is over time, the second specifies which mass, the third specifies the cartesian displacement
+    :returns: ``None``
+
+    """
+
 
     # settings for plotting
     IMAGE_PATH = "pendulum.png"
@@ -67,6 +74,13 @@ def init():
 
 # animation function.  This is called sequentially
 def animate(i):
+    """Helper function for :func:`animate_paths`. Adds the objects and
+    paths to the plot for each frame
+
+    :param i: the frame number
+    :returns: ``None``
+
+    """
 
     x = np.array([0]+list(plotter_paths[i,:,0]))
     y = np.array([0]+list(plotter_paths[i,:,1]))
@@ -78,6 +92,14 @@ def animate(i):
     return line
 
 def animate_paths(paths, dt):
+    """ Animate the images by compiling .png outputs into a .mp4 video. **REQUIRES: ffmpeg**
+
+    :param paths:  a three dimensional numpy array: The first index is over time, the second specifies which mass, the third specifies the cartesian displacement
+    :param dt: the timestep in seconds
+    :returns: ``None``
+
+    """
+
     print "Creating animation."
     global plotter_paths
     rate = 30

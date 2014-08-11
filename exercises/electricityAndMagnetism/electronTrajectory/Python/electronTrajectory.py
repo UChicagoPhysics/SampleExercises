@@ -26,14 +26,17 @@ BOX_Z = 1
 # timestep
 dt = 1e-10
 
-# Creates a matplotlib plot and plots a list of trajectories labeled
-# by a list of masses.
-# called by      : main()
-# arguments      :
-# - trajectories : an array of trajectories
-# - masses       : a list of masses
-# = returns      : None
 def plot_trajectory(trajectories, masses):
+    """Creates a matplotlib plot and plots a list of trajectories labeled
+    by a list of masses.
+    
+    .. seealso:: called by :func:`main`
+
+    :param trajectories: an array of trajectories
+    :param masses:: a list of masses
+    :returns: ``None``
+
+    """
 
     # settings for plotting
     print "Plotting."
@@ -65,16 +68,19 @@ def plot_trajectory(trajectories, masses):
 
     return None
 
-# calculates the magnetic force on the particle and moves it
-# accordingly
-# called by  : calculate_trajectory()
-# arguments  :  
-# - position : 3D numpy array (r_x,r_y,r_z) in meters
-# - velocity : 3D numpy array (v_x,v_y,v_z) in m/s
-# - mass     : scalar float in kg
-# - B        : magnetic field strength, scalar float in Tesla
-# = returns  : the updated position and velocity (3D vectors)
 def update_pos(position, velocity, mass, B):
+    """calculates the magnetic force on the particle and moves it
+    accordingly
+
+    .. seealso: called by :func:`calculate_trajectory`
+
+    :param position: 3D numpy array (r_x,r_y,r_z) in meters
+    :param velocity: 3D numpy array (v_x,v_y,v_z) in m/s
+    :param mass: scalar float in kg
+    :param B: magnetic field strength, scalar float in Tesla
+    :returns: the updated position and velocity (3D vectors)
+
+    """
 
     # calculate the total force and accelerations on each body using
     # numpy's vector cross product
@@ -89,15 +95,18 @@ def update_pos(position, velocity, mass, B):
 
     return position, velocity
 
-# Calculates the trajectory of the particle 
-# called by  : main()
-# arguments  :
-# - position : 3D vector (r_x,r_y,r_z) in meters
-# - velocity : 3D vector (v_x,v_y,v_z) in m/s
-# - mass     : scalar float in kg
-# - B        : magnetic field strength, scalar float in Tesla
-# = returns  : a numpy array of 3D vectors (np.arrays)
 def calculate_trajectory(position, velocity, mass, B):
+    """Calculates the trajectory of the particle 
+
+    .. seealso: called by :func:`calculate_trajectory`
+
+    :param position: 3D vector (r_x,r_y,r_z) in meters
+    :param velocity: 3D vector (v_x,v_y,v_z) in m/s
+    :param mass: scalar float in kg
+    :param B: magnetic field strength, scalar float in Tesla
+    :returns: a numpy array of 3D vectors (np.arrays)
+
+    """
 
     print "Calculating trajectory: %.2e kg" % mass
 
@@ -115,6 +124,8 @@ def calculate_trajectory(position, velocity, mass, B):
 # Loops over multiples of electron mass, calculates trajectories, and
 # plots them.
 def main():
+    """ Loops over particles with integer multiples of the mass of the
+    electron and shoots them through the magnetic field """
 
     print "Starting calculation."
 

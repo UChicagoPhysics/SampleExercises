@@ -10,34 +10,100 @@ from scipy.integrate import ode
 from params import *
 import plotting
 
+"""Evolves the a double pendulum system given initial parameters
+definied in ````params.py```` module
+"""
+
 def dtheta1(theta1, theta2, p1, p2):
+    """the time derivative of ``theta1``
+
+    :param theta1: float
+    :param theta2: float
+    :param p1: float
+    :param p2: float
+    :returns: float, the time derivative of theta1
+
+    """
     num = l2*p1 - l1*p2*cos(theta1 - theta2)
     den = l1*l1*l2*(m1 + m2*sin(theta1 - theta2)**2)
     return num/den
 
 def dtheta2(theta1, theta2, p1, p2):
+    """the time derivative of ``theta2``
+
+    :param theta1: float
+    :param theta2: float
+    :param p1: float
+    :param p2: float
+    :returns: float, the time derivative of theta2
+
+    """
     num = l1*(m1+m2)*p2 - l2*m2*p1*cos(theta1-theta2)
     den = l1*l2*l2*m2*(m1+ m2*sin(theta1-theta2)**2)
     return num/den
 
 def dp1(theta1, theta2, p1, p2, c1, c2):
+    """the time derivative of ``p1``
+
+    :param theta1: float
+    :param theta2: float
+    :param p1: float
+    :param p2: float
+    :returns: float, the time derivative of p1
+
+    """
     return -(m1+m2)*g*l1*sin(theta1) - c1 + c2
 
 def dp2(theta1, theta2, p1, p2, c1, c2):
+    """the time derivative of ``p2``
+
+    :param theta1: float
+    :param theta2: float
+    :param p1: float
+    :param p2: float
+    :returns: float, the time derivative of p2
+
+    """
     return -m2*g*l2*sin(theta2) + c1 - c2
 
 def C1(theta1, theta2, p1, p2):
+    """helper function to calculate a constant ``C_1``
+
+    :param theta1: float
+    :param theta2: float
+    :param p1: float
+    :param p2: float
+    :returns: float, constant used in calculating Hamilton's equation
+
+    """
     num = p1*p2*sin(theta1 - theta2)
     den = l1*l2*(m1 + m2*sin(theta1 - theta2)**2)
     return num/den
 
 def C2(theta1, theta2, p1, p2):
+    """helper function to calculate a constant ``C_2``
+
+    :param theta1: float
+    :param theta2: float
+    :param p1: float
+    :param p2: float
+    :returns: float, constant used in calculating Hamilton's equation
+
+    """
     num = l2*l2*m2*p1*p2 + l1*(m1 + m2)*p2**2 - l1*l2*m2*p1*p2*cos(theta1-theta2)
     den = 2*l1*l1*l2*l2*(m1 + m2*sin(theta1-theta2)**2)**2*sin(2*(theta1-theta2))
     return num/den
 
 def deriv(t, y):
+    """calculated the derivative of ``theta1, theta2, p1, p2``
 
+    :param theta1: float
+    :param theta2: float
+    :param p1: float
+    :param p2: float
+    :returns: numpy array, time derivative of parameters
+
+    """
     theta1, theta2, p1, p2 = y[0], y[1], y[2], y[3]
 
     _c1 = C1(theta1, theta2, p1, p2)
@@ -52,6 +118,16 @@ def deriv(t, y):
     return array([_dtheta1, _dtheta2, _dp1, _dp2])
 
 def euler(theta1, theta2, p1, p2):
+    """use a naive euler integration schemed to make a single step in
+    the pendulum's motion
+
+    :param theta1: float
+    :param theta2: float
+    :param p1: float
+    :param p2: float
+    :returns: tuple of updated parameters
+
+    """
 
     _y = deriv(0, [theta1, theta2, p1, p2])
     _dtheta1, _dtheta2, _dp1, _dp2 = _y[0], _y[1], _y[2], _y[3]
@@ -66,12 +142,28 @@ def euler(theta1, theta2, p1, p2):
 
 
 def velocity_verlet(theta1, theta2, p1, p2):
+    """**TODO** use a velocity verlet integration schemed to make a single step in
+    the pendulum's motion
+
+    :param theta1: float
+    :param theta2: float
+    :param p1: float
+    :param p2: float
+    :returns: tuple of parameters
+
+    """
 
         
     return theta1, theta2, p1, p2
 
 
 def calculate_paths(method = "euler"):
+    """use a default or specified method of integration to solve the
+    pendulum's motion
+
+    :param method: optional, string.  specify the integration method to use
+
+    """
     
     theta1 = theta1_0
     theta2 = theta2_0
@@ -116,7 +208,7 @@ def main():
     plotting.plot_paths(paths)
 
     # animation
-    plotting.animate_paths(paths, dt)
+    # plotting.animate_paths(paths, dt)
 
 # This is Python syntax which tells Python to call the function we
 # created, called 'main()', only if this file was run directly, rather

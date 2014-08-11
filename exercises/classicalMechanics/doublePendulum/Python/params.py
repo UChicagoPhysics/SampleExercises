@@ -9,8 +9,8 @@ g = 9.8                  # m/s
 l1       = 1.2           # m
 l2       = .7            #m
 
-theta1_0 = np.pi/6
-theta2_0 = np.pi/7
+theta1_0 = np.pi/4
+theta2_0 = np.pi
 
 m1       = .10           # kg
 m2       = .05           # kg
