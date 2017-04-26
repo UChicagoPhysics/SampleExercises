@@ -4,20 +4,21 @@
 
 ####### C++ #######
 *.o                  #  Object Files
-*.d                  #  
-*.obj                #  
+*.d                  #
+*.obj                #
 *.exe                #  Executables
-*.out                #  
+*.out                #
 *.so                 #  Linked Libraries
-*.dll                #  
-*.lai                #  
-*.la                 #  
-*.a                  #  
-*.lib                #  
+*.dll                #
+*.lai                #
+*.la                 #
+*.a                  #
+*.lib                #
 
 ###### Python ######
 *.py[cod]            #  Binaries
 __pycache__          #  Cache
 *.log                #  Log Files
 
-
+###### Jupyter/IPython #####
+.ipynb_checkpoints
